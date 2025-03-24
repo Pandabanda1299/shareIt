@@ -6,15 +6,15 @@ import java.util.List;
 
 public interface ItemStorage {
 
-        Item create(Item dto, Long userId);
+    Item create(Item dto, Long userId);
 
-        Item update(Item newItem, Long id);
+    Item update(Item newItem, Long id);
 
-        Item findById(Long id);
+    Item findById(Long id);
 
-        List<Item> findAllByUserId(Long id);
+    List<Item> findAllByUserId(Long id);
 
-        List<Item> findByText(String text);
+    List<Item> findByText(String text);
 
-        void delete(Long id);
+    void delete(Long id);
 }
