@@ -1,17 +1,13 @@
 package com.example.shareIt.user.dto;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder(toBuilder = true)
-public class UserDto {
+public class UpdateDto {
     Long id;
-    @NotBlank(message = "Электронная почта не может быть пустой")
     @Email(message = "Электронная почта должна соответствовать шаблону name@domain.xx")
     String email;
-    @NotBlank(message = "Имя не может быть пустым")
     String name;
 }
+

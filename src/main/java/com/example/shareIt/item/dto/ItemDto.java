@@ -1,13 +1,18 @@
 package com.example.shareIt.item.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@Data
 @Builder(toBuilder = true)
 public class ItemDto {
-    Long id;
-    String name;
-    String description;
-    Boolean available;
+    private Long id;
+    @NotBlank
+    private String name;
+    @NotBlank
+    private String description;
+    @NotNull
+    private Boolean available;
 }

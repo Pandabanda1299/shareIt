@@ -20,7 +20,6 @@ public class MemoryUserStorageImpl implements UserStorage {
 
     @Override
     public User create(User user) {
-        log.info("Создание нового пользователя = {}", user);
         emailExistCheck(user);
 
         long id = generateId();
@@ -29,6 +28,7 @@ public class MemoryUserStorageImpl implements UserStorage {
                 .name(user.getName())
                 .email(user.getEmail())
                 .build();
+        log.info("Создание нового пользователя = {}", user);
 
         users.put(id, user);
         return user;
@@ -36,7 +36,7 @@ public class MemoryUserStorageImpl implements UserStorage {
 
     @Override
     public User update(User user, Long id) {
-        log.info("Обновление пользователя с id = {}", id);
+        log.info("Обновление пользователя с id = {}", user);
         if (user.getEmail() != null) {
             emailExistCheck(user);
         }

@@ -1,8 +1,11 @@
 package com.example.shareIt.user;
 
+import com.example.shareIt.user.dto.UpdateDto;
 import com.example.shareIt.user.dto.UserDto;
 import com.example.shareIt.user.service.UserService;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -18,6 +21,7 @@ import java.util.List;
 @RequestMapping(path = "/users")
 public class UserController {
 
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
     private final UserService service;
 
     public UserController(UserService service) {
@@ -40,7 +44,8 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public UserDto update(@RequestBody UserDto newUser, @PathVariable("id") Long id) {
+    public UserDto update(@Valid @RequestBody UpdateDto newUser, @PathVariable("id") Long id) {
+        log.info("Updating user with id new user {}", newUser);
         return service.update(newUser, id);
     }
 

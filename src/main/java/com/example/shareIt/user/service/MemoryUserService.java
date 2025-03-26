@@ -1,9 +1,10 @@
 package com.example.shareIt.user.service;
 
-import com.example.shareIt.exception.ValidationException;
+import com.example.shareIt.user.dto.UpdateDto;
 import com.example.shareIt.user.dto.UserDto;
 import com.example.shareIt.user.mapper.UserMapper;
 import com.example.shareIt.user.model.User;
+import com.example.shareIt.user.service.converter.UserConverter;
 import com.example.shareIt.user.storage.UserStorage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,9 +16,11 @@ import java.util.List;
 @Service
 public class MemoryUserService implements UserService {
     private final UserStorage storage;
+    private final UserConverter userConverter;
 
-    public MemoryUserService(@Qualifier("userMemoryStorage") UserStorage storage) {
+    public MemoryUserService(@Qualifier("userMemoryStorage") UserStorage storage, UserConverter userConverter) {
         this.storage = storage;
+        this.userConverter = userConverter;
     }
 
     @Override
@@ -27,33 +30,9 @@ public class MemoryUserService implements UserService {
     }
 
     @Override
-    public UserDto update(UserDto dto, Long id) {
+    public UserDto update(UpdateDto dto, Long id) {
         User user = storage.findById(id);
-        if (dto.getEmail() != null && dto.getName() != null) {
-            user = User.builder()
-                    .id(id)
-                    .email(dto.getEmail())
-                    .name(dto.getName())
-                    .build();
-
-        } else if (dto.getEmail() == null && dto.getName() != null) {
-            user = User.builder()
-                    .id(id)
-                    .email(user.getEmail())
-                    .name(dto.getName())
-                    .build();
-
-        } else if (dto.getEmail() != null) {
-            user = User.builder()
-                    .id(id)
-                    .email(dto.getEmail())
-                    .name(user.getName())
-                    .build();
-        } else {
-            log.error("Полученный UserDto не содержит имя и email");
-            throw new ValidationException("Полученный UserDto не содержит имя и email");
-        }
-
+        userConverter.fromDto(dto, user);
         return UserMapper.mapUserToDto(storage.update(user, id));
     }
 

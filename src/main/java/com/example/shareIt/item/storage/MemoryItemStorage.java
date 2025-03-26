@@ -48,7 +48,7 @@ public class MemoryItemStorage implements ItemStorage {
 
     @Override
     public Item update(Item newItem, Long id) {
-        log.info("Обновление вещи: {}", id);
+        log.info("Обновление вещи: {}", newItem);
         items.put(id, newItem);
         return newItem;
     }

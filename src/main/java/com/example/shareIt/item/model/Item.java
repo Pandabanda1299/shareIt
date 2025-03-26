@@ -4,22 +4,18 @@ import com.example.shareIt.user.model.User;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@Data
 @Builder(toBuilder = true)
 public class Item {
-    Long id;
-
+    private Long id;
     @NotNull
-    User owner;
-
+    private User owner;
     @NotBlank
-    String name;
-
+    private String name;
     @NotBlank
-    String description;
-
+    private String description;
     @NotNull
-    Boolean available;
+    private Boolean available;
 }

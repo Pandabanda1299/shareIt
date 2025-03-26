@@ -1,8 +1,11 @@
 package com.example.shareIt.item;
 
 import com.example.shareIt.item.dto.ItemDto;
+import com.example.shareIt.item.dto.ItemUpdateDto;
 import com.example.shareIt.item.service.ItemService;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -19,6 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/items")
 public class ItemController {
+    private static final Logger log = LoggerFactory.getLogger(ItemController.class);
     private final ItemService service;
 
     public ItemController(ItemService service) {
@@ -46,8 +50,9 @@ public class ItemController {
     }
 
     @PatchMapping("/{id}")
-    public ItemDto update(@RequestBody ItemDto newItem, @PathVariable("id") Long id,
+    public ItemDto update(@RequestBody ItemUpdateDto newItem, @PathVariable("id") Long id,
                           @RequestHeader("X-Sharer-User-Id") Long userId) {
+        log.info(newItem.toString());
         return service.update(newItem, id, userId);
     }
 
