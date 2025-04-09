@@ -1,6 +1,7 @@
 package com.example.shareIt.item.mapper;
 
 import com.example.shareIt.item.dto.ItemDto;
+import com.example.shareIt.item.dto.ItemUpdateDto;
 import com.example.shareIt.item.model.Item;
 import lombok.experimental.UtilityClass;
 
@@ -24,53 +25,15 @@ public class ItemMapper {
                 .build();
     }
 
-    public Item mapNewItemAllFields(Item item, ItemDto dto) {
-        return Item.builder()
-                .id(item.getId())
-                .owner(item.getOwner())
-                .name(dto.getName())
-                .description(dto.getDescription())
-                .available(dto.getAvailable())
-                .build();
-    }
-
-    public Item mapNewItemNameDescription(Item item, ItemDto dto) {
-        return Item.builder()
-                .id(item.getId())
-                .owner(item.getOwner())
-                .name(dto.getName())
-                .description(dto.getDescription())
-                .available(item.getAvailable())
-                .build();
-    }
-
-    public Item mapNewItemName(Item item, ItemDto dto) {
-        return Item.builder()
-                .id(item.getId())
-                .owner(item.getOwner())
-                .name(dto.getName())
-                .description(item.getDescription())
-                .available(item.getAvailable())
-                .build();
-    }
-
-    public Item mapNewItemAvailable(Item item, ItemDto dto) {
-        return Item.builder()
-                .id(item.getId())
-                .owner(item.getOwner())
-                .name(item.getName())
-                .description(item.getDescription())
-                .available(dto.getAvailable())
-                .build();
-    }
-
-    public Item mapNewItemDescription(Item item, ItemDto dto) {
-        return Item.builder()
-                .id(item.getId())
-                .owner(item.getOwner())
-                .name(item.getName())
-                .description(dto.getDescription())
-                .available(item.getAvailable())
-                .build();
+    public void updateDtoToItem(ItemUpdateDto dto, Item item) {
+        if (dto.getName() != null) {
+            item.setName(dto.getName());
+        }
+        if (dto.getDescription() != null) {
+            item.setDescription(dto.getDescription());
+        }
+        if (dto.getAvailable() != null) {
+            item.setAvailable(dto.getAvailable());
+        }
     }
 }

@@ -4,7 +4,6 @@ import com.example.shareIt.user.dto.UpdateDto;
 import com.example.shareIt.user.dto.UserDto;
 import com.example.shareIt.user.mapper.UserMapper;
 import com.example.shareIt.user.model.User;
-import com.example.shareIt.user.service.converter.UserConverter;
 import com.example.shareIt.user.storage.UserStorage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,11 +15,9 @@ import java.util.List;
 @Service
 public class MemoryUserService implements UserService {
     private final UserStorage storage;
-    private final UserConverter userConverter;
 
-    public MemoryUserService(@Qualifier("userMemoryStorage") UserStorage storage, UserConverter userConverter) {
+    public MemoryUserService(@Qualifier("userMemoryStorage") UserStorage storage) {
         this.storage = storage;
-        this.userConverter = userConverter;
     }
 
     @Override
@@ -32,7 +29,7 @@ public class MemoryUserService implements UserService {
     @Override
     public UserDto update(UpdateDto dto, Long id) {
         User user = storage.findById(id);
-        userConverter.fromDto(dto, user);
+        UserMapper.updateDtoToUser(dto, user);
         return UserMapper.mapUserToDto(storage.update(user, id));
     }
 

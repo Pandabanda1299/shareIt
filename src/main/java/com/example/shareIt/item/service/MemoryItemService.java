@@ -6,7 +6,6 @@ import com.example.shareIt.item.dto.ItemDto;
 import com.example.shareIt.item.dto.ItemUpdateDto;
 import com.example.shareIt.item.mapper.ItemMapper;
 import com.example.shareIt.item.model.Item;
-import com.example.shareIt.item.service.converter.ItemConverter;
 import com.example.shareIt.item.storage.ItemStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,11 +20,9 @@ public class MemoryItemService implements ItemService {
 
     private static final Logger log = LoggerFactory.getLogger(MemoryItemService.class);
     private final ItemStorage storage;
-    private final ItemConverter itemConverter;
 
-    public MemoryItemService(@Qualifier("itemMemoryStorage") ItemStorage storage, ItemConverter itemConverter) {
+    public MemoryItemService(@Qualifier("itemMemoryStorage") ItemStorage storage) {
         this.storage = storage;
-        this.itemConverter = itemConverter;
     }
 
     @Override
@@ -42,7 +39,7 @@ public class MemoryItemService implements ItemService {
             throw new NotFoundException("Обновляемая вещь с id = " + id + " не принадлежит " +
                     "указанному пользователю с id = " + userId);
         }
-        itemConverter.fromDto(itemUpdateDto, item);
+        ItemMapper.updateDtoToItem(itemUpdateDto, item);
         log.info(item.toString());
         return ItemMapper.mapItemToDto(storage.update(item, id));
     }

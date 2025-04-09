@@ -1,5 +1,6 @@
 package com.example.shareIt.user.mapper;
 
+import com.example.shareIt.user.dto.UpdateDto;
 import com.example.shareIt.user.dto.UserDto;
 import com.example.shareIt.user.model.User;
 import lombok.experimental.UtilityClass;
@@ -24,5 +25,14 @@ public class UserMapper {
                 .email(user.getEmail())
                 .name(user.getName())
                 .build();
+    }
+
+    public void updateDtoToUser(UpdateDto updateDto, User user) {
+        if (updateDto.getName() != null) {
+            user.setName(updateDto.getName());
+        };
+        if (updateDto.getEmail() != null) {
+            user.setEmail(updateDto.getEmail());
+        }
     }
 }
