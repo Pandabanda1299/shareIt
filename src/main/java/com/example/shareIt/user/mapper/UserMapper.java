@@ -30,7 +30,8 @@ public class UserMapper {
     public void updateDtoToUser(UpdateDto updateDto, User user) {
         if (updateDto.getName() != null) {
             user.setName(updateDto.getName());
-        };
+        }
+        ;
         if (updateDto.getEmail() != null) {
             user.setEmail(updateDto.getEmail());
         }
