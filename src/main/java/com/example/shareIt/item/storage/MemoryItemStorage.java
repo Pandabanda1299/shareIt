@@ -3,11 +3,8 @@ package com.example.shareIt.item.storage;
 
 import com.example.shareIt.exception.NotFoundException;
 import com.example.shareIt.item.model.Item;
-import com.example.shareIt.user.mapper.UserMapper;
-import com.example.shareIt.user.model.User;
 import com.example.shareIt.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -19,30 +16,25 @@ import java.util.Objects;
 @Component("itemMemoryStorage")
 public class MemoryItemStorage implements ItemStorage {
 
-    @Autowired
-    private UserService userService;
     private Map<Long, Item> items = new HashMap<>();
-    private long itemId = 1;
+    private Long itemId = 1L;
+    private final UserService userService;
 
-    private long generateId() {
+    @Override
+    public Long generateId() {
         return itemId++;
     }
 
+
+    public MemoryItemStorage(UserService userService) {
+        this.userService = userService;
+    }
+
+
     @Override
-    public Item create(Item item, Long userId) {
+    public Item create(Item item) {
         log.info("Добавление новой вещи: {}", item);
-        User user = UserMapper.mapDtoToUser(userService.findById(userId));
-
-        long id = generateId();
-        item = Item.builder()
-                .id(id)
-                .owner(user)
-                .name(item.getName())
-                .description(item.getDescription())
-                .available(item.getAvailable())
-                .build();
-
-        items.put(id, item);
+        items.put(item.getId(), item);
         return item;
     }
 

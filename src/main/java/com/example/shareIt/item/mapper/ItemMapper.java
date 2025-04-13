@@ -8,14 +8,6 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class ItemMapper {
-    public Item mapDtoToItem(ItemDto dto) {
-        return Item.builder()
-                .name(dto.getName())
-                .description(dto.getDescription())
-                .available(dto.getAvailable())
-                .build();
-    }
-
     public ItemDto mapItemToDto(Item item) {
         return ItemDto.builder()
                 .id(item.getId())
@@ -24,6 +16,7 @@ public class ItemMapper {
                 .available(item.getAvailable())
                 .build();
     }
+
 
     public void updateDtoToItem(ItemUpdateDto dto, Item item) {
         if (dto.getName() != null) {

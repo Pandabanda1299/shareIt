@@ -7,6 +7,9 @@ import com.example.shareIt.item.dto.ItemUpdateDto;
 import com.example.shareIt.item.mapper.ItemMapper;
 import com.example.shareIt.item.model.Item;
 import com.example.shareIt.item.storage.ItemStorage;
+import com.example.shareIt.user.mapper.UserMapper;
+import com.example.shareIt.user.model.User;
+import com.example.shareIt.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,16 +21,29 @@ import java.util.Objects;
 @Service
 public class MemoryItemService implements ItemService {
 
+    private final UserService userService;
     private static final Logger log = LoggerFactory.getLogger(MemoryItemService.class);
     private final ItemStorage storage;
 
-    public MemoryItemService(@Qualifier("itemMemoryStorage") ItemStorage storage) {
+
+    public MemoryItemService(UserService userService, @Qualifier("itemMemoryStorage") ItemStorage storage) {
+        this.userService = userService;
         this.storage = storage;
     }
 
     @Override
     public ItemDto create(ItemDto dto, Long userId) {
-        Item item = storage.create(ItemMapper.mapDtoToItem(dto), userId);
+        log.info("Добавление новой вещи: {}", dto);
+        User user = UserMapper.mapDtoToUser(userService.findById(userId));
+        long id = storage.generateId();
+        Item item = Item.builder()
+                .id(id)
+                .owner(user)
+                .name(dto.getName())
+                .description(dto.getDescription())
+                .available(dto.getAvailable())
+                .build();
+        storage.create(item);
         return ItemMapper.mapItemToDto(item);
     }
 
@@ -64,6 +80,7 @@ public class MemoryItemService implements ItemService {
                 .map(ItemMapper::mapItemToDto)
                 .toList();
     }
+
 
     @Override
     public void delete(Long id) {

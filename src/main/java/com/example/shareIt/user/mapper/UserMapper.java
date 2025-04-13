@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @UtilityClass
-
 public class UserMapper {
 
     public User mapDtoToUser(UserDto dto) {
@@ -31,7 +30,7 @@ public class UserMapper {
         if (updateDto.getName() != null) {
             user.setName(updateDto.getName());
         }
-        ;
+
         if (updateDto.getEmail() != null) {
             user.setEmail(updateDto.getEmail());
         }
