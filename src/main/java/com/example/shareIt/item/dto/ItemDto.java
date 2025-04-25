@@ -1,18 +1,32 @@
 package com.example.shareIt.item.dto;
 
+import com.example.shareIt.booking.dto.BookingDtoResponse;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
+
+import java.util.List;
+
 
 @Data
-@Builder(toBuilder = true)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ItemDto {
-    private Long id;
+    Long id;
+
     @NotBlank
-    private String name;
+    String name;
+
     @NotBlank
-    private String description;
+    String description;
+
     @NotNull
-    private Boolean available;
+    Boolean available;
+
+    BookingDtoResponse lastBooking;
+
+    BookingDtoResponse nextBooking;
+
+    List<CommentDtoResponse> comments;
 }

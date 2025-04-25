@@ -1,7 +1,8 @@
 package com.example.shareIt.item.service;
 
+import com.example.shareIt.item.dto.CommentDtoRequest;
+import com.example.shareIt.item.dto.CommentDtoResponse;
 import com.example.shareIt.item.dto.ItemDto;
-import com.example.shareIt.item.dto.ItemUpdateDto;
 
 import java.util.List;
 
@@ -9,11 +10,13 @@ public interface ItemService {
 
     ItemDto create(ItemDto item, Long userId);
 
-    ItemDto update(ItemUpdateDto newItem, Long id, Long userId);
+    CommentDtoResponse addComment(CommentDtoRequest dto, Long itemId, Long userId);
+
+    ItemDto update(ItemDto newItem, Long id, Long userId);
 
     ItemDto findById(Long id);
 
-    List<ItemDto> findAllByUserId(Long id);
+    List<ItemDto> findByOwnerId(Long id);
 
     List<ItemDto> findByText(String text);
 
