@@ -1,15 +1,15 @@
-package ru.practicum.shareit.user.service;
+package com.example.shareIt.user.service;
 
+import com.example.shareIt.exception.ConflictException;
+import com.example.shareIt.exception.NotFoundException;
+import com.example.shareIt.user.dto.UserDto;
+import com.example.shareIt.user.mapper.UserMapper;
+import com.example.shareIt.user.model.User;
+import com.example.shareIt.user.storage.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.shareit.exception.ConflictException;
-import ru.practicum.shareit.exception.NotFoundException;
-import ru.practicum.shareit.user.dto.UserDto;
-import ru.practicum.shareit.user.mapper.UserMapper;
-import ru.practicum.shareit.user.model.User;
-import ru.practicum.shareit.user.storage.UserRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -65,8 +65,7 @@ public class DbUserServiceImpl implements UserService {
 
     @Override
     public UserDto findById(Long id) {
-        User user = repository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Пользователь " + id + " не найден"));
+        User user = repository.findById(id).orElseThrow();
         return UserMapper.mapUserToDto(user);
     }
 }
