@@ -13,15 +13,11 @@ import java.util.List;
 
 @UtilityClass
 public class ItemMapper {
-    public Item mapDtoToItem(ItemDto dto) {
-        Item item = new Item();
-        item.setName(dto.getName());
-        item.setDescription(dto.getDescription());
-        item.setAvailable(dto.getAvailable());
-        return item;
-    }
 
     public Item mapDtoToItem(ItemDto dto, User owner) {
+        if (dto == null) {
+            throw new IllegalArgumentException("DTO is null");
+        }
         Item item = new Item();
         item.setOwner(owner);
         item.setName(dto.getName());

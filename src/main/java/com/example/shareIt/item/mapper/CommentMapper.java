@@ -14,6 +14,9 @@ import java.util.List;
 @UtilityClass
 public class CommentMapper {
     public Comment mapDtoToComment(CommentDtoRequest dto, User owner, Item item) {
+        if (dto == null || owner == null || item == null) {
+            throw new IllegalArgumentException("Один или несколько параметров являются null");
+        }
         Comment comment = new Comment();
         comment.setItem(item);
         comment.setText(dto.getText());
@@ -23,6 +26,9 @@ public class CommentMapper {
     }
 
     public CommentDtoResponse mapCommentToDto(Comment comment) {
+        if (comment == null) {
+            throw new IllegalArgumentException("Коммент null");
+        }
         CommentDtoResponse dto = new CommentDtoResponse();
         dto.setId(comment.getId());
         dto.setItem(comment.getItem());
@@ -33,6 +39,9 @@ public class CommentMapper {
     }
 
     public static List<CommentDtoResponse> mapCommentToDto(Iterable<Comment> comments) {
+        if (comments == null) {
+            throw new IllegalArgumentException("Коммент null");
+        }
         List<CommentDtoResponse> dtos = new ArrayList<>();
         for (Comment comment : comments) {
             dtos.add(mapCommentToDto(comment));

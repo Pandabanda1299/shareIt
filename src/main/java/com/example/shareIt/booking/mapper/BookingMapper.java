@@ -15,6 +15,9 @@ import java.util.List;
 public class BookingMapper {
 
     public Booking mapDtoToNewBooking(BookingDtoRequest dto, User user, Item item) {
+        if (dto == null || user == null || item == null) {
+            throw new IllegalArgumentException("Один или несколько параметров являются null");
+        }
         Booking booking = new Booking();
         booking.setStatus(Status.WAITING);
         booking.setUser(user);
