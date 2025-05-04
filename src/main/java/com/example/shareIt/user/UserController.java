@@ -1,10 +1,8 @@
 package com.example.shareIt.user;
 
-import com.example.shareIt.user.dto.UpdateDto;
 import com.example.shareIt.user.dto.UserDto;
 import com.example.shareIt.user.service.UserService;
 import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Slf4j
 @RestController
 @RequestMapping(path = "/users")
 public class UserController {
@@ -43,8 +40,7 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public UserDto update(@Valid @RequestBody UpdateDto newUser, @PathVariable("id") Long id) {
-        log.info("Updating user with id new user {}", newUser);
+    public UserDto update(@RequestBody UserDto newUser, @PathVariable("id") Long id) {
         return service.update(newUser, id);
     }
 
