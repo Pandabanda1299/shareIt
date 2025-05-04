@@ -1,34 +1,24 @@
-package ru.practicum.shareit.user.service;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.shareit.exception.ConflictException;
-import ru.practicum.shareit.exception.NotFoundException;
-import ru.practicum.shareit.user.dto.UserDto;
-import ru.practicum.shareit.user.mapper.UserMapper;
-import ru.practicum.shareit.user.model.User;
-import ru.practicum.shareit.user.storage.UserRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional(propagation = Propagation.REQUIRES_NEW)
 public class DbUserServiceImpl implements UserService {
     private final UserRepository repository;
 
     @Override
-    @Transactional
     public UserDto create(UserDto dto) {
         User user = repository.save(UserMapper.mapDtoToUser(dto));
         return UserMapper.mapUserToDto(user);
     }
 
     @Override
-    @Transactional
     public UserDto update(UserDto dto, Long id) {
         User user = repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Обновляемый пользователь не найден"));
@@ -51,22 +41,21 @@ public class DbUserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public void delete(Long id) {
         User user = repository.getReferenceById(id);
         repository.delete(user);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<UserDto> findAll() {
         List<User> users = repository.findAll();
         return UserMapper.mapUserToDto(users);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserDto findById(Long id) {
-        User user = repository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Пользователь " + id + " не найден"));
         return UserMapper.mapUserToDto(user);
     }
 }
