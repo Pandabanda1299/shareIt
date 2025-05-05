@@ -12,6 +12,7 @@ import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,7 +33,8 @@ public class ItemRequestMapper {
         dto.setId(request.getId());
         dto.setDescription(request.getDescription());
         dto.setCreated(request.getCreated());
-        return dto;
+        dto.setItems(Collections.emptyList());
+        return toDto(request);
     }
 
     public static List<ItemRequestDtoResponse> toDto(Iterable<ItemRequest> requests) {

@@ -56,9 +56,9 @@ public class DbItemServiceImpl implements ItemService {
         ItemRequest request = null;
 
         if (Objects.nonNull(dto.getRequestId())) {
-            request = requestRepository.findById(dto.getRequestId()).orElse(null);
+            request = requestRepository.findById(dto.getRequestId())
+                    .orElseThrow(() -> new NotFoundException("Запрос с id = " + dto.getRequestId() + " не найден"));
         }
-
         Item item = itemRepository.save(ItemMapper.mapDtoToItem(dto, owner, request));
         log.info("Вещь {} создана", item);
         return ItemMapper.mapItemToDto(item);
