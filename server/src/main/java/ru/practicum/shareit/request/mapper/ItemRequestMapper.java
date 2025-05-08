@@ -49,10 +49,7 @@ public class ItemRequestMapper {
         log.info("МАППЕР, request = {}, items = {}", request, items);
         List<ItemDtoRequestIdResponse> resultItems = ItemMapper.mapItemToDtoRequest(
                 items.stream().filter(item -> Objects.equals(item.getRequest(), request)).toList());
-        ItemRequestDtoResponse dto = new ItemRequestDtoResponse();
-        dto.setId(request.getId());
-        dto.setDescription(request.getDescription());
-        dto.setCreated(request.getCreated());
+        ItemRequestDtoResponse dto = toDto(request);
         dto.setItems(resultItems);
         return dto;
     }
