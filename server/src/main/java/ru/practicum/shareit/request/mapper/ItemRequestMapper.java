@@ -12,7 +12,6 @@ import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -33,7 +32,7 @@ public class ItemRequestMapper {
         dto.setId(request.getId());
         dto.setDescription(request.getDescription());
         dto.setCreated(request.getCreated());
-        dto.setItems(Collections.emptyList());
+        dto.setItems(new ArrayList<>());
         return toDto(request);
     }
 
@@ -50,7 +49,7 @@ public class ItemRequestMapper {
         List<ItemDtoRequestIdResponse> resultItems = ItemMapper.mapItemToDtoRequest(
                 items.stream().filter(item -> Objects.equals(item.getRequest(), request)).toList());
         ItemRequestDtoResponse dto = toDto(request);
-        dto.setItems(resultItems);
+        dto.getItems().addAll(resultItems);
         return dto;
     }
 
