@@ -33,7 +33,7 @@ public class ItemRequestMapper {
         dto.setDescription(request.getDescription());
         dto.setCreated(request.getCreated());
         dto.setItems(new ArrayList<>());
-        return toDto(request);
+        return dto;
     }
 
     public static List<ItemRequestDtoResponse> toDto(Iterable<ItemRequest> requests) {
